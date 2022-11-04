@@ -1,14 +1,6 @@
 const { Schema, model } = require('mongoose');
 const Reactions = require('./Reactions');
-
-function formatDate(date) {
-  let d = new Date(date);
-  let month = '' + d.getMonth();
-  let day = '' + d.getDate();
-  let year = d.getFullYear();
-
-  return [month, day, year].join('-');
-}
+const moment = require('moment');
 
 const thoughtSchema = new Schema(
   {
@@ -16,7 +8,7 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      set: (date) => formatDate(date),
+      get: (v) => moment(v).format('MMM DD, YYYY'),
     },
     username: { type: String, required: true },
     reactions: [Reactions],
@@ -24,6 +16,7 @@ const thoughtSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
+      getters: true,
     },
     id: false,
   }
@@ -31,6 +24,9 @@ const thoughtSchema = new Schema(
 
 thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
+});
+thoughtSchema.virtual('setDate').set(function (date) {
+  return formatDate(this.createdAt);
 });
 
 const Thoughts = model('Thoughts', thoughtSchema);
