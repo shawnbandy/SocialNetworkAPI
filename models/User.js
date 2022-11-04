@@ -2,9 +2,19 @@ const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema(
   {
-    first: { type: String, required: true },
-    last: { type: String, required: true },
-    age: Number,
+    username: { type: String, required: true, unique: true, trim: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      validate: {
+        validator: function (v) {
+          //*regex for valid email
+          return /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/.test(v);
+        },
+      },
+    },
+
     friendsList: [
       {
         type: Schema.Types.ObjectId,
@@ -25,6 +35,10 @@ const userSchema = new Schema(
     id: false,
   }
 );
+
+userSchema.virtual('friendCount').get(function (v) {
+  return this.friendsList.length;
+});
 
 const User = model('User', userSchema);
 

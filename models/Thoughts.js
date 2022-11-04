@@ -1,17 +1,25 @@
 const { Schema, model } = require('mongoose');
+const Reactions = require('./Reactions');
+
+function formatDate(date) {
+  let d = new Date(date);
+  let month = '' + d.getMonth();
+  let day = '' + d.getDate();
+  let year = d.getFullYear();
+
+  return [month, day, year].join('-');
+}
 
 const thoughtSchema = new Schema(
   {
-    title: String,
-    body: {
-      type: String,
-      minLength: 10,
-      maxLength: 500,
+    thoughtText: { type: String, required: true, maxlength: 280, minlength: 1 },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      set: (date) => formatDate(date),
     },
-    reactions: {
-      type: Schema.Types.ObjectId,
-      ref: 'Reactions',
-    },
+    username: { type: String, required: true },
+    reactions: [Reactions],
   },
   {
     toJSON: {
@@ -20,6 +28,10 @@ const thoughtSchema = new Schema(
     id: false,
   }
 );
+
+thoughtSchema.virtual('reactionCount').get(function () {
+  return this.reactions.length;
+});
 
 const Thoughts = model('Thoughts', thoughtSchema);
 

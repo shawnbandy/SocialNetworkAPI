@@ -21,3 +21,9 @@ db.once('open', () => {
     console.log(`API server for ${activity} running on port ${PORT}!`);
   });
 });
+
+//TODO checks
+//* get, post, update, delete user
+//* post, delete friend
+//* get, post, update, delete thoughts
+//* post, delete reactions
