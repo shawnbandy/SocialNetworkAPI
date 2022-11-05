@@ -13,9 +13,7 @@ const getSingleThought = async (req, res) => {
   try {
     const singleThought = await Thoughts.findOne({
       _id: req.params.thoughtId,
-    })
-      .select('-__v')
-      .populate('Reactions');
+    }).select('-__v');
 
     if (!singleThought) {
       res.status(404).json({ message: 'No thought with that ID' });
@@ -30,6 +28,15 @@ const getSingleThought = async (req, res) => {
 const createThought = async (req, res) => {
   try {
     const newThought = await Thoughts.create(req.body);
+    const addToUser = await User.findOneAndUpdate(
+      { username: req.body.username },
+      {
+        $addToSet: { thoughtList: newThought._id },
+      },
+      {
+        new: true,
+      }
+    );
     res.json(newThought);
   } catch (err) {
     console.log(err);
@@ -40,7 +47,7 @@ const updateThought = async (req, res) => {
   try {
     const updatedThought = await Thoughts.findOneAndUpdate(
       {
-        _id: req.params.thoughtId,
+        _id: req.body.thoughtId,
       },
       { $set: req.body },
       {
@@ -62,7 +69,7 @@ const updateThought = async (req, res) => {
 const deleteThought = async (req, res) => {
   try {
     const deletedThought = await Thoughts.findOneAndRemove({
-      _id: req.params.thoughtId,
+      _id: req.body.thoughtId,
     });
     if (!deletedThought) {
       res.status(404).json({ message: 'No thought with that ID' });

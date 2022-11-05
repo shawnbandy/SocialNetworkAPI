@@ -9,7 +9,8 @@ const {
   deleteFriend,
 } = require('../../controllers/userController');
 
-//*potential middleware for cascade
+//*potential middleware for cascade? can't get it to work
+const cascadeDelete = require('../../utils/cascade');
 
 //* /api/users for get, post, put, and delete
 router

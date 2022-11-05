@@ -19,7 +19,7 @@ db.once('open', () => {
 });
 
 //TODO checks
-//* get, post, update, delete user
-//* post, delete friend
-//* get, post, update, delete thoughts
-//* post, delete reactions
+//* , , , user
+//* , friend
+//* , , ,  thoughts
+//* ,  reactions
