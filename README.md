@@ -87,3 +87,10 @@
 ## Application Description
 
 Social Networking APIs are the foundation for the interactivity behind the scenes, allowing users to create a new account, add each other as friends, post thoughts, and reacting to thoughts. This application provides that foundation using express.js to handle the server, and MongoDB to handle the data/api requests. Following the CRUD design, users are able to make, edit, and delete their accounts and thoughts, as well as retrieving all users and thoughts ever created. Additionally, users are able to send requests to add other users to their friend's list to follow them. Lastly, users are able to add reactions to their own and other's thoughts and see those when requested
+
+Link to Repo: https://github.com/shawnbandy/SocialNetworkAPI
+
+Link to Video Demo: https://www.youtube.com/watch?v=0r5KbncztaY
+
+Application Image: ![image](https://user-images.githubusercontent.com/105885313/200186314-c06296db-fad5-49d0-b1d3-a7398c63a71a.png)
+
